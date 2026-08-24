@@ -15,14 +15,23 @@ jobs:
     name: Проверка сборки
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: yarn
 
-      - run: corepack enable
+      # Corepack включаем строго после setup-node, иначе на раннере остаётся Yarn 1
+      - name: Включить Corepack
+        run: corepack enable
+
+      - name: Кэш зависимостей Yarn
+        uses: actions/cache@v4
+        with:
+          path: ~/.yarn/berry/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Установка зависимостей
         run: yarn install --immutable
