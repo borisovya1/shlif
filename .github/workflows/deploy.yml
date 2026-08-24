@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          # v5 включает кэш сам при наличии packageManager и падает на глобальном Yarn 1
+          package-manager-cache: false
 
       # Corepack включаем строго после setup-node, иначе на раннере остаётся Yarn 1
       - name: Включить Corepack
