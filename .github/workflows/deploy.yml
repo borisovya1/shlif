@@ -1,0 +1,62 @@
+name: CI / Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Проверка сборки
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - run: corepack enable
+
+      - name: Установка зависимостей
+        run: yarn install --immutable
+
+      - name: Линтер
+        run: yarn lint
+
+      - name: Проверка типов
+        run: yarn typecheck
+
+      - name: Сборка
+        run: yarn build
+
+  deploy:
+    name: Деплой на сервер
+    needs: check
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Обновление и перезапуск по SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -e
+            cd ${{ secrets.DEPLOY_PATH }}
+            git fetch --all
+            git reset --hard origin/main
+            corepack enable
+            yarn install --immutable
+            yarn build
+            pm2 reload ecosystem.config.cjs --update-env
+            pm2 save

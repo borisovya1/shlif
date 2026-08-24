@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Тёплые древесные оттенки — основа палитры */
+  --color-bark-50: #f8f6f3;
+  --color-bark-100: #eee9e2;
+  --color-bark-200: #ddd3c7;
+  --color-bark-300: #c3b4a2;
+  --color-bark-400: #a08e78;
+  --color-bark-500: #7e6c58;
+  --color-bark-600: #5f5044;
+  --color-bark-700: #453a30;
+  --color-bark-800: #2c2620;
+  --color-bark-900: #1b1713;
+  --color-bark-950: #100d0b;
+
+  /* Медный акцент */
+  --color-copper-50: #fdf5ec;
+  --color-copper-100: #f8e5cd;
+  --color-copper-200: #efc79c;
+  --color-copper-300: #e2a568;
+  --color-copper-400: #d38942;
+  --color-copper-500: #bd6f2b;
+  --color-copper-600: #9d5722;
+  --color-copper-700: #7c421c;
+  --color-copper-800: #5c3117;
+  --color-copper-900: #3e2110;
+
+  --radius-card: 1.25rem;
+
+  --animate-fade-up: fade-up 0.5s ease-out both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Чтобы якорные ссылки не заезжали под фиксированную шапку */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-bark-50);
+    color: var(--color-bark-900);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-copper-200);
+    color: var(--color-bark-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-copper-500);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.95rem 1.6rem;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.15s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background-color: var(--color-copper-500);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-copper-600);
+  }
+
+  .btn-dark {
+    background-color: var(--color-bark-900);
+    color: var(--color-bark-50);
+  }
+
+  .btn-dark:hover {
+    background-color: var(--color-bark-800);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--color-bark-300);
+    color: var(--color-bark-900);
+    background-color: transparent;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-bark-900);
+    background-color: var(--color-bark-100);
+  }
+
+  .btn-ghost-light {
+    border: 1px solid rgb(255 255 255 / 0.35);
+    color: #fff;
+    background-color: rgb(255 255 255 / 0.06);
+    backdrop-filter: blur(4px);
+  }
+
+  .btn-ghost-light:hover {
+    background-color: rgb(255 255 255 / 0.16);
+    border-color: rgb(255 255 255 / 0.6);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-copper-600);
+  }
+
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--color-bark-200);
+    border-radius: var(--radius-card);
+  }
+}
+
+/* Убираем стандартный вид ползунка диапазона */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-bark-200);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-bark-200);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -9px;
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  background: var(--color-copper-500);
+  border: 4px solid #fff;
+  box-shadow: 0 2px 8px rgb(16 13 11 / 0.25);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  background: var(--color-copper-500);
+  border: 4px solid #fff;
+  box-shadow: 0 2px 8px rgb(16 13 11 / 0.25);
+  cursor: pointer;
+}
