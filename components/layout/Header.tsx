@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import Logo from "@/components/layout/Logo";
@@ -21,7 +20,6 @@ const desktopLinks = navLinks.filter((link) =>
 );
 
 export default function Header() {
-  const pathname = usePathname();
   const { openCallback } = useModals();
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
@@ -35,11 +33,6 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setMegaOpen(false);
-    setMobileOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -95,7 +88,10 @@ export default function Header() {
                 onMouseEnter={cancelClose}
                 onMouseLeave={scheduleClose}
               >
-                <div className="animate-fade-up grid gap-x-8 gap-y-6 rounded-3xl border border-bark-200 bg-white p-7 shadow-xl shadow-bark-900/5 sm:grid-cols-2 lg:grid-cols-4">
+                <div
+                  onClick={() => setMegaOpen(false)}
+                  className="animate-fade-up grid gap-x-8 gap-y-6 rounded-3xl border border-bark-200 bg-white p-7 shadow-xl shadow-bark-900/5 sm:grid-cols-2 lg:grid-cols-4"
+                >
                   {menuGroups.map((service) => {
                     const children = getChildren(service);
                     return (
@@ -218,7 +214,10 @@ export default function Header() {
               </button>
 
               {mobileServicesOpen ? (
-                <ul className="mb-2 space-y-1 border-l border-bark-200 pl-4">
+                <ul
+                  onClick={() => setMobileOpen(false)}
+                  className="mb-2 space-y-1 border-l border-bark-200 pl-4"
+                >
                   {menuGroups.map((service) => (
                     <li key={service.slug}>
                       <Link
@@ -246,7 +245,10 @@ export default function Header() {
                 </ul>
               ) : null}
 
-              <nav className="divide-y divide-bark-200 border-t border-bark-200">
+              <nav
+                onClick={() => setMobileOpen(false)}
+                className="divide-y divide-bark-200 border-t border-bark-200"
+              >
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}

@@ -50,7 +50,8 @@ jobs:
   deploy:
     name: Деплой на сервер
     needs: check
-    if: github.event_name != 'pull_request'
+    # Пока сервера нет, держим переменную DEPLOY_ENABLED пустой, чтобы job не краснел
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Обновление и перезапуск по SSH
@@ -69,5 +70,5 @@ jobs:
             corepack enable
             yarn install --immutable
             yarn build
-            pm2 reload ecosystem.config.cjs --update-env
+            pm2 startOrReload ecosystem.config.cjs --update-env
             pm2 save

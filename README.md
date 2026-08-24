@@ -212,6 +212,9 @@ Settings → Secrets and variables → Actions → New repository secret:
 | `SSH_PORT` | `22` (можно не задавать) |
 | `DEPLOY_PATH` | `/var/www/shlif` |
 
+Там же, на вкладке **Variables**, создайте переменную `DEPLOY_ENABLED` со значением `true`.
+Пока её нет, job деплоя пропускается — это позволяет держать CI зелёным, пока сервер не готов.
+
 ### Как это работает дальше
 
 ```bash
