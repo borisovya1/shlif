@@ -2,13 +2,19 @@ import Link from "next/link";
 
 import { site } from "@/lib/site";
 
-export default function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
+export default function Logo({
+  tone = "dark",
+  compact = false,
+}: {
+  tone?: "dark" | "light";
+  compact?: boolean;
+}) {
   const isLight = tone === "light";
 
   return (
-    <Link href="/" className="flex items-center gap-3" aria-label={site.name}>
+    <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3" aria-label={site.name}>
       <span
-        className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${
+        className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl sm:h-11 sm:w-11 ${
           isLight ? "bg-white/10 text-copper-300" : "bg-bark-900 text-copper-300"
         }`}
       >
@@ -18,18 +24,18 @@ export default function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
           <circle cx="12" cy="12" r="2.2" fill="currentColor" />
         </svg>
       </span>
-      <span className="flex flex-col leading-tight">
+      <span className="flex min-w-0 flex-col leading-tight">
         <span
-          className={`text-base font-extrabold tracking-tight ${
+          className={`truncate text-sm font-extrabold tracking-tight sm:text-base ${
             isLight ? "text-white" : "text-bark-900"
           }`}
         >
           {site.name}
         </span>
         <span
-          className={`text-[11px] font-medium tracking-wide ${
-            isLight ? "text-bark-300" : "text-bark-400"
-          }`}
+          className={`truncate text-[11px] font-medium tracking-wide ${
+            compact ? "hidden sm:block" : ""
+          } ${isLight ? "text-bark-300" : "text-bark-400"}`}
         >
           {site.tagline}
         </span>

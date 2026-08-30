@@ -65,7 +65,7 @@ export default function Quiz() {
           />
         </div>
 
-        <div className="rounded-[2rem] bg-white p-6 text-bark-900 shadow-2xl shadow-black/20 sm:p-9">
+        <div className="min-w-0 overflow-hidden rounded-[1.5rem] bg-white p-5 text-bark-900 shadow-2xl shadow-black/20 sm:rounded-[2rem] sm:p-9">
           {step < TOTAL_QUESTIONS ? (
             <>
               <div className="flex items-center justify-between text-xs font-bold tracking-wide text-bark-400 uppercase">

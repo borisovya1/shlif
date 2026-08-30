@@ -88,7 +88,7 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {site.name}. Все права защищены.
           </p>
-          <div className="flex gap-5">
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
             <Link href="/politika" className="transition hover:text-copper-300">
               Политика конфиденциальности
             </Link>

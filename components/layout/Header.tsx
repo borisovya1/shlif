@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import Logo from "@/components/layout/Logo";
 import { useModals } from "@/components/modals/modal-context";
@@ -25,7 +26,12 @@ export default function Header() {
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -35,12 +41,19 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    if (!mobileOpen) return;
+
     const previous = document.body.style.overflow;
-    document.body.style.overflow = mobileOpen ? "hidden" : previous;
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previous;
     };
   }, [mobileOpen]);
+
+  function closeMobile() {
+    setMobileOpen(false);
+    setMobileServicesOpen(false);
+  }
 
   function scheduleClose() {
     closeTimer.current = setTimeout(() => setMegaOpen(false), 160);
@@ -50,16 +63,119 @@ export default function Header() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   }
 
+  const mobileMenu = mobileOpen ? (
+    <div className="fixed inset-0 z-[90] lg:hidden">
+      <div
+        className="absolute inset-0 bg-bark-950/60"
+        onClick={closeMobile}
+        aria-hidden="true"
+      />
+      <div className="absolute inset-y-0 right-0 flex h-dvh w-[min(100%,24rem)] flex-col bg-bark-50 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-2xl">
+        <div className="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-bark-200 px-4">
+          <Logo compact />
+          <button
+            type="button"
+            onClick={closeMobile}
+            aria-label="Закрыть меню"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-bark-200 text-bark-900"
+          >
+            <CloseIcon className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5">
+          <button
+            type="button"
+            onClick={() => setMobileServicesOpen((open) => !open)}
+            aria-expanded={mobileServicesOpen}
+            className="flex w-full items-center justify-between py-3 text-lg font-bold text-bark-900"
+          >
+            Услуги
+            <ChevronDownIcon
+              className={`h-5 w-5 shrink-0 transition-transform ${
+                mobileServicesOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          {mobileServicesOpen ? (
+            <ul
+              onClick={closeMobile}
+              className="mb-2 space-y-1 border-l border-bark-200 pl-4"
+            >
+              {menuGroups.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    href={serviceHref(service.slug)}
+                    className="block py-2 text-[15px] font-semibold text-bark-700"
+                  >
+                    {service.menuTitle ?? service.title}
+                  </Link>
+                  {getChildren(service).length ? (
+                    <ul className="mb-1 space-y-1 border-l border-bark-100 pl-3">
+                      {getChildren(service).map((child) => (
+                        <li key={child.slug}>
+                          <Link
+                            href={serviceHref(child.slug)}
+                            className="block py-1.5 text-sm text-bark-500"
+                          >
+                            {child.menuTitle ?? child.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <nav
+            onClick={closeMobile}
+            className="divide-y divide-bark-200 border-t border-bark-200"
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block py-3.5 text-lg font-bold text-bark-900"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <div className="shrink-0 border-t border-bark-200 px-4 py-4">
+          <a href={site.phone.href} className="block text-xl font-extrabold text-bark-900">
+            {site.phone.display}
+          </a>
+          <p className="mt-1 text-sm text-bark-400">{site.workingHours}</p>
+          <button
+            type="button"
+            onClick={() => {
+              closeMobile();
+              openCallback();
+            }}
+            className="btn btn-primary mt-4 w-full"
+          >
+            Заказать звонок
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "border-b border-bark-200 bg-bark-50/90 backdrop-blur-md"
+          ? "border-b border-bark-200 bg-bark-50/95 backdrop-blur-md"
           : "border-b border-transparent bg-bark-50"
       }`}
     >
-      <div className="container-page flex h-20 items-center justify-between gap-6">
-        <Logo />
+      <div className="container-page flex h-16 items-center justify-between gap-3 sm:h-20 sm:gap-6">
+        <Logo compact />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Основная навигация">
           <div
@@ -146,7 +262,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <a
             href={site.phone.href}
             className="hidden text-sm font-bold text-bark-900 transition hover:text-copper-600 md:block"
@@ -178,108 +294,7 @@ export default function Header() {
         </div>
       </div>
 
-      {mobileOpen ? (
-        <div className="fixed inset-0 z-[90] lg:hidden">
-          <div
-            className="absolute inset-0 bg-bark-950/60"
-            onClick={() => setMobileOpen(false)}
-            aria-hidden="true"
-          />
-          <div className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col bg-bark-50 shadow-2xl">
-            <div className="flex h-20 items-center justify-between border-b border-bark-200 px-5">
-              <Logo />
-              <button
-                type="button"
-                onClick={() => setMobileOpen(false)}
-                aria-label="Закрыть меню"
-                className="grid h-11 w-11 place-items-center rounded-xl border border-bark-200 text-bark-900"
-              >
-                <CloseIcon className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto px-5 py-6">
-              <button
-                type="button"
-                onClick={() => setMobileServicesOpen((open) => !open)}
-                aria-expanded={mobileServicesOpen}
-                className="flex w-full items-center justify-between py-3 text-lg font-bold text-bark-900"
-              >
-                Услуги
-                <ChevronDownIcon
-                  className={`h-5 w-5 transition-transform ${
-                    mobileServicesOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {mobileServicesOpen ? (
-                <ul
-                  onClick={() => setMobileOpen(false)}
-                  className="mb-2 space-y-1 border-l border-bark-200 pl-4"
-                >
-                  {menuGroups.map((service) => (
-                    <li key={service.slug}>
-                      <Link
-                        href={serviceHref(service.slug)}
-                        className="block py-2 text-[15px] font-semibold text-bark-700"
-                      >
-                        {service.menuTitle ?? service.title}
-                      </Link>
-                      {getChildren(service).length ? (
-                        <ul className="mb-1 space-y-1 border-l border-bark-100 pl-3">
-                          {getChildren(service).map((child) => (
-                            <li key={child.slug}>
-                              <Link
-                                href={serviceHref(child.slug)}
-                                className="block py-1.5 text-sm text-bark-500"
-                              >
-                                {child.menuTitle ?? child.title}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-
-              <nav
-                onClick={() => setMobileOpen(false)}
-                className="divide-y divide-bark-200 border-t border-bark-200"
-              >
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block py-3.5 text-lg font-bold text-bark-900"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            <div className="border-t border-bark-200 px-5 py-5">
-              <a href={site.phone.href} className="block text-xl font-extrabold text-bark-900">
-                {site.phone.display}
-              </a>
-              <p className="mt-1 text-sm text-bark-400">{site.workingHours}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileOpen(false);
-                  openCallback();
-                }}
-                className="btn btn-primary mt-4 w-full"
-              >
-                Заказать звонок
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {mounted ? createPortal(mobileMenu, document.body) : null}
     </header>
   );
 }

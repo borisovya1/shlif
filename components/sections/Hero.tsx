@@ -27,16 +27,18 @@ export default function Hero() {
       />
 
       <div className="relative">
-        <div className="container-page grid gap-14 py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:py-28">
+        <div className="container-page grid gap-10 py-14 sm:gap-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:py-28">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-copper-200 uppercase backdrop-blur-sm">
-              <ShieldIcon className="h-4 w-4" />
-              Работаем по договору · Гарантия {site.stats.warranty}
+            <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-copper-200 uppercase backdrop-blur-sm sm:px-4 sm:text-xs">
+              <ShieldIcon className="h-4 w-4 shrink-0" />
+              <span className="min-w-0">
+                Работаем по договору · Гарантия {site.stats.warranty}
+              </span>
             </span>
 
-            <h1 className="mt-6 text-4xl leading-[1.05] font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-[1.75rem] leading-[1.15] font-extrabold tracking-tight sm:text-4xl sm:leading-[1.05] lg:text-6xl">
               Отделка деревянного дома
-              <span className="mt-3 block text-2xl font-bold text-copper-300 sm:text-3xl lg:text-4xl">
+              <span className="mt-2 block text-xl font-bold text-copper-300 sm:mt-3 sm:text-3xl lg:text-4xl">
                 в {site.regionIn}
               </span>
             </h1>
