@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 
 import Logo from "@/components/layout/Logo";
 import { useModals } from "@/components/modals/modal-context";
@@ -26,12 +25,7 @@ export default function Header() {
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -167,6 +161,7 @@ export default function Header() {
   ) : null;
 
   return (
+    <>
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
         scrolled
@@ -294,7 +289,8 @@ export default function Header() {
         </div>
       </div>
 
-      {mounted ? createPortal(mobileMenu, document.body) : null}
     </header>
+    {mobileMenu}
+    </>
   );
 }
