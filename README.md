@@ -1,7 +1,7 @@
 # ДокторШлиф — сайт по отделке деревянных домов
 
 Лендинг + страницы услуг на Next.js 16 (App Router, TypeScript, Tailwind CSS v4).
-Заявки из форм уходят в Telegram через серверный маршрут `/api/lead` — токен бота
+Заявки из форм уходят на почту через серверный маршрут `/api/lead` — SMTP-пароль
 хранится в переменных окружения на сервере и в браузер не попадает.
 
 ## Быстрый старт
@@ -14,8 +14,11 @@ yarn dev      # http://localhost:3001
 Чтобы формы работали локально, создайте файл `.env` (см. `.env.example`):
 
 ```
-TELEGRAM_BOT_TOKEN=123456:AA...
-TELEGRAM_CHAT_ID=123456789
+SMTP_HOST=smtp.yandex.ru
+SMTP_PORT=465
+SMTP_USER=заявки@ваш-домен.ru
+SMTP_PASS=пароль-приложения
+LEAD_MAIL_TO=куда-присылать@почта.ru
 ```
 
 Продакшен-сборка локально:
@@ -32,7 +35,7 @@ yarn start    # http://localhost:3001
 | `lib/site.ts` | Название, телефон, email, адрес, регион, домен — **правьте в первую очередь** |
 | `lib/services.ts` | Все услуги: тексты, состав работ, вложенность, пункты меню |
 | `lib/content.ts` | Проекты, «до/после», отзывы, FAQ, этапы, преимущества |
-| `app/api/lead/route.ts` | Приём заявок и отправка в Telegram |
+| `app/api/lead/route.ts` | Приём заявок и отправка письма |
 | `lib/submitLead.ts` | Клиентская часть отправки формы |
 | `app/page.tsx` | Порядок секций на главной |
 | `components/sections/` | Секции лендинга |
@@ -40,16 +43,17 @@ yarn start    # http://localhost:3001
 | `ecosystem.config.cjs` | Конфигурация PM2 для сервера |
 | `.github/workflows/deploy.yml` | CI и автодеплой |
 
-## Заявки в Telegram
+## Заявки на почту
 
-1. Создайте бота у [@BotFather](https://t.me/BotFather) → получите `TELEGRAM_BOT_TOKEN`.
-2. Узнайте `TELEGRAM_CHAT_ID`: напишите боту, затем откройте
-   `https://api.telegram.org/bot<ТОКЕН>/getUpdates` и возьмите `chat.id`.
-   Для группы — добавьте бота в группу и возьмите её отрицательный id.
-3. Пропишите обе переменные в `.env` (локально) и на сервере.
+С российского VPS надёжнее всего SMTP Яндекса или Mail.ru.
+
+1. Создайте ящик (удобно `заявки@doctor-shlif.ru`, когда почта на домене появится).
+2. Включите пароль приложения / доступ по SMTP. Обычный пароль входа часто не принимается.
+3. Для Яндекса: хост `smtp.yandex.ru`, порт `465`, `SMTP_SECURE=true`.
+4. Пропишите переменные в `.env` локально и на сервере. `LEAD_MAIL_TO` — куда падают заявки.
 
 Что уже сделано в коде: проверка номера, honeypot против ботов, ограничение
-до 5 заявок с одного IP за 10 минут, экранирование текста перед отправкой.
+до 5 заявок с одного IP за 10 минут, экранирование HTML в письме.
 
 ## Как подставить свои фотографии
 
@@ -69,7 +73,7 @@ yarn start    # http://localhost:3001
 Итоговая схема:
 
 ```
-браузер → nginx (443, HTTPS) → Next.js (localhost:3001, PM2) → Telegram API
+браузер → nginx (443, HTTPS) → Next.js (localhost:3001, PM2) → SMTP (Яндекс / Mail.ru)
 ```
 
 ## Шаг 1. Сервер
@@ -126,8 +130,12 @@ nano /var/www/shlif/.env
 ```
 
 ```
-TELEGRAM_BOT_TOKEN=123456:AA...
-TELEGRAM_CHAT_ID=123456789
+SMTP_HOST=smtp.yandex.ru
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=заявки@ваш-домен.ru
+SMTP_PASS=пароль-приложения
+LEAD_MAIL_TO=куда-присылать@почта.ru
 PORT=3001
 ```
 
@@ -261,7 +269,7 @@ sudo systemctl reload nginx   # перечитать конфиг nginx
 
 - [ ] Указать реальный домен в `lib/site.ts` (`url`)
 - [ ] Дозаполнить email и адрес офиса в `lib/site.ts`
-- [ ] Прописать `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в `.env` на сервере
+- [ ] Прописать SMTP и `LEAD_MAIL_TO` в `.env` на сервере
 - [ ] Заменить заглушки на фотографии объектов
 - [ ] Добавить картинку для соцсетей `app/opengraph-image.jpg` (1200×630)
 - [ ] Согласовать тексты политики и оферты (`app/politika`, `app/oferta`)

@@ -12,11 +12,11 @@ export type Lead = {
 };
 
 /**
- * Отправляет заявку на серверный маршрут /api/lead, который уже пишет в Telegram.
- * Токен бота живёт только в переменных окружения на сервере и в браузер не попадает.
+ * Отправляет заявку на серверный маршрут /api/lead, который уже пишет письмо по SMTP.
+ * Пароль почты живёт только в переменных окружения на сервере и в браузер не попадает.
  */
 export async function submitLead(lead: Lead): Promise<void> {
-  const response = await fetch("/api/lead", {
+  const response = await fetch("/api/lead/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(lead),

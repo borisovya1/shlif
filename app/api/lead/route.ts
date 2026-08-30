@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 import { site } from "@/lib/site";
 
@@ -7,9 +8,6 @@ export const dynamic = "force-dynamic";
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
-
-/** Визуальный разделитель между заявками в ленте бота */
-const SEPARATOR = "━━━━━━━━━━━━━━━━━━━";
 
 /** Простое ограничение частоты в памяти процесса: защита от спама формами */
 const requestLog = new Map<string, number[]>();
@@ -42,12 +40,36 @@ const sourceLabels: Record<string, string> = {
   callback: "Модальное окно «Обратный звонок»",
 };
 
-export async function POST(request: Request) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+function getSmtpConfig() {
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS;
+  const to = process.env.LEAD_MAIL_TO?.trim();
+  const port = Number(process.env.SMTP_PORT || 465);
 
-  if (!token || !chatId) {
-    console.error("[lead] Не заданы TELEGRAM_BOT_TOKEN и/или TELEGRAM_CHAT_ID");
+  if (!host || !user || !pass || !to || Number.isNaN(port)) {
+    return null;
+  }
+
+  const secure =
+    process.env.SMTP_SECURE === "false" ? false : process.env.SMTP_SECURE === "true" || port === 465;
+
+  return {
+    host,
+    port,
+    secure,
+    user,
+    pass,
+    to,
+    from: process.env.SMTP_FROM?.trim() || user,
+  };
+}
+
+export async function POST(request: Request) {
+  const smtp = getSmtpConfig();
+
+  if (!smtp) {
+    console.error("[lead] Не заданы SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS или LEAD_MAIL_TO");
     return NextResponse.json({ error: "Форма временно недоступна" }, { status: 500 });
   }
 
@@ -70,7 +92,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Некорректный запрос" }, { status: 400 });
   }
 
-  // Honeypot: поле скрыто от людей, но боты его заполняют
   if (asText(payload.company, 100)) {
     return NextResponse.json({ ok: true });
   }
@@ -85,6 +106,7 @@ export async function POST(request: Request) {
   const name = asText(payload.name, 100);
   const comment = asText(payload.comment, 1000);
   const source = asText(payload.source, 40);
+  const sourceLabel = sourceLabels[source] ?? source ?? "Сайт";
 
   const details =
     payload.details && typeof payload.details === "object"
@@ -101,49 +123,52 @@ export async function POST(request: Request) {
     minute: "2-digit",
   }).format(new Date());
 
-  const lines = [
-    SEPARATOR,
-    `🔔 <b>НОВАЯ ЗАЯВКА — ${escapeHtml(site.name.toUpperCase())}</b>`,
-    SEPARATOR,
+  const textLines = [
+    `Новая заявка — ${site.name}`,
     "",
-    `📞 <b>Телефон:</b> ${escapeHtml(phone)}`,
+    `Телефон: ${phone}`,
   ];
 
-  if (name) lines.push(`👤 <b>Имя:</b> ${escapeHtml(name)}`);
-  if (comment) lines.push(`💬 <b>Комментарий:</b> ${escapeHtml(comment)}`);
+  if (name) textLines.push(`Имя: ${name}`);
+  if (comment) textLines.push(`Комментарий: ${comment}`);
+  for (const [key, value] of details) {
+    textLines.push(`${key}: ${value}`);
+  }
+  textLines.push("", `${sourceLabel} · ${receivedAt} МСК`);
 
-  if (details.length) {
-    lines.push("");
-    for (const [key, value] of details) {
-      lines.push(`▪️ <b>${escapeHtml(key)}:</b> ${escapeHtml(value)}`);
-    }
+  const htmlRows = [
+    `<p><b>Телефон:</b> ${escapeHtml(phone)}</p>`,
+  ];
+  if (name) htmlRows.push(`<p><b>Имя:</b> ${escapeHtml(name)}</p>`);
+  if (comment) htmlRows.push(`<p><b>Комментарий:</b> ${escapeHtml(comment)}</p>`);
+  for (const [key, value] of details) {
+    htmlRows.push(`<p><b>${escapeHtml(key)}:</b> ${escapeHtml(value)}</p>`);
   }
 
-  lines.push(
-    "",
-    SEPARATOR,
-    `<i>${escapeHtml(sourceLabels[source] ?? source ?? "Сайт")} · ${receivedAt} МСК</i>`,
-  );
-
   try {
-    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: lines.join("\n"),
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-      }),
-      cache: "no-store",
+    const transporter = nodemailer.createTransport({
+      host: smtp.host,
+      port: smtp.port,
+      secure: smtp.secure,
+      auth: {
+        user: smtp.user,
+        pass: smtp.pass,
+      },
     });
 
-    if (!response.ok) {
-      console.error("[lead] Telegram ответил ошибкой:", await response.text());
-      return NextResponse.json({ error: "Не удалось отправить заявку" }, { status: 502 });
-    }
+    await transporter.sendMail({
+      from: `"${site.name}" <${smtp.from}>`,
+      to: smtp.to,
+      subject: `Заявка с сайта: ${phone}`,
+      text: textLines.join("\n"),
+      html: `
+        <h2>Новая заявка — ${escapeHtml(site.name)}</h2>
+        ${htmlRows.join("")}
+        <p><i>${escapeHtml(sourceLabel)} · ${escapeHtml(receivedAt)} МСК</i></p>
+      `,
+    });
   } catch (error) {
-    console.error("[lead] Ошибка запроса к Telegram:", error);
+    console.error("[lead] Ошибка отправки почты:", error);
     return NextResponse.json({ error: "Не удалось отправить заявку" }, { status: 502 });
   }
 

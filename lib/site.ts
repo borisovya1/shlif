@@ -10,8 +10,7 @@ export const site = {
   description:
     "Шлифовка, покраска, тёплый шов и обсада деревянных домов. Работаем по договору с фиксированной сметой, гарантия на все виды работ до 3 лет.",
 
-  // ЗАМЕНИТЬ: от этого адреса строятся canonical-ссылки, sitemap.xml и robots.txt
-  url: "https://example.ru",
+  url: "https://doctor-shlif.ru",
 
   phone: {
     display: "+7 (903) 683-82-91",
