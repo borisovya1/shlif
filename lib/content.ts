@@ -251,20 +251,28 @@ export type BeforeAfterItem = {
   title: string;
   caption: string;
   tone: number;
+  beforeSrc?: string;
+  afterSrc?: string;
 };
 
+
+// Блок до/после
 export const beforeAfter: BeforeAfterItem[] = [
   {
     id: "fasad-sruba",
     title: "Полное восстановление фасада двухэтажного сруба",
-    caption: "Шлифовка, отбеливание, покраска в два слоя и тёплый шов",
+    caption: "Шлифовка, отбеливание, покраска в два слоя",
     tone: 2,
+    beforeSrc: "/assets/3.webp",
+    afterSrc: "/assets/1.webp",
   },
   {
     id: "dachnyy-dom",
-    title: "Реконструкция дачного дома с верандой",
-    caption: "Шлифовка, строительство веранды, кровля и финишная покраска",
+    title: "Реконструкция веранды",
+    caption: "Шлифовка и финишная покраска",
     tone: 9,
+    beforeSrc: "/assets/4.webp",
+    afterSrc: "/assets/5.webp",
   },
 ];
 
@@ -392,7 +400,7 @@ export const steps = [
 export const advantages = [
   {
     title: "Один подрядчик на весь цикл",
-    text: "Строительство, отделка и инженерия у одного исполнителя — не нужно стыковать бригады между собой.",
+    text: "Шлифовка, покраска, тёплый шов и отделка у одного исполнителя — не нужно стыковать бригады между собой.",
   },
   {
     title: "Проверенные составы",

@@ -30,6 +30,8 @@ export type Service = {
   children?: string[];
   /** Показывать в блоке услуг на главной */
   featured?: boolean;
+  /** Скрыть везде на сайте (в меню, списках и как отдельный маршрут), не удаляя данные */
+  hidden?: boolean;
 };
 
 export const services: Service[] = [
@@ -395,6 +397,7 @@ export const services: Service[] = [
     slug: "kryshi",
     title: "Кровельные работы",
     menuTitle: "Крыши",
+    hidden: true,
     icon: "roof",
     excerpt: "Монтаж, ремонт и утепление кровли деревянного дома.",
     intro:
@@ -423,6 +426,7 @@ export const services: Service[] = [
     slug: "inzheneriya",
     title: "Инженерные системы",
     menuTitle: "Инженерия",
+    hidden: true,
     icon: "engineering",
     excerpt: "Электрика, отопление, водоснабжение и вентиляция в дереве.",
     intro:
@@ -451,6 +455,7 @@ export const services: Service[] = [
     slug: "stroitelstvo",
     title: "Строительство домов",
     menuTitle: "Строительство",
+    hidden: true,
     icon: "build",
     excerpt: "Полный цикл: фундамент, коробка, кровля и отделка.",
     intro:
@@ -480,6 +485,7 @@ export const services: Service[] = [
     slug: "karkasnye-doma",
     title: "Каркасные дома",
     icon: "build",
+    hidden: true,
     excerpt: "Тёплый каркас с правильным пирогом стены — от проекта до отделки.",
     intro:
       "Каркасный дом строится быстрее сруба и сразу готов к отделке — усадки практически нет. Главное здесь качество пирога стены и герметичность контура.",
@@ -506,6 +512,7 @@ export const services: Service[] = [
     slug: "proizvodstvo",
     title: "Собственное производство",
     menuTitle: "Производство",
+    hidden: true,
     icon: "factory",
     excerpt: "Беседки, фальшбалки, плинтусы и изделия под проект.",
     intro:
@@ -534,6 +541,7 @@ export const services: Service[] = [
     slug: "besedki",
     title: "Беседки",
     icon: "factory",
+    hidden: true,
     excerpt: "Беседки и навесы из бревна и бруса под ваш участок.",
     intro:
       "Изготавливаем беседки под размер площадки и стиль дома: открытые, закрытые, с мангальной зоной и подведённым электричеством.",
@@ -553,6 +561,7 @@ export const services: Service[] = [
     slug: "falshbalki",
     title: "Фальшбалки",
     icon: "beam",
+    hidden: true,
     excerpt: "Декоративные балки для потолка — лёгкие и точные по размеру.",
     intro:
       "Фальшбалка даёт вид массива без нагрузки на перекрытие, а внутри неё удобно спрятать проводку и точечные светильники.",
@@ -572,6 +581,7 @@ export const services: Service[] = [
     slug: "plintusy",
     title: "Плинтусы и погонаж",
     menuTitle: "Плинтусы",
+    hidden: true,
     icon: "floor",
     excerpt: "Плинтус, наличник и галтель из массива по вашему профилю.",
     intro:
@@ -592,7 +602,7 @@ export const services: Service[] = [
 
 export const servicesBySlug = new Map(services.map((service) => [service.slug, service]));
 
-export const featuredServices = services.filter((service) => service.featured);
+export const featuredServices = services.filter((service) => service.featured && !service.hidden);
 
 export function getService(slug: string): Service | undefined {
   return servicesBySlug.get(slug);
@@ -601,7 +611,8 @@ export function getService(slug: string): Service | undefined {
 export function getChildren(service: Service): Service[] {
   return (service.children ?? [])
     .map((slug) => servicesBySlug.get(slug))
-    .filter((child): child is Service => Boolean(child));
+    .filter((child): child is Service => Boolean(child))
+    .filter((child) => !child.hidden);
 }
 
 export function getParent(service: Service): Service | undefined {
@@ -624,4 +635,5 @@ export const menuGroups = [
   "proizvodstvo",
 ]
   .map((slug) => servicesBySlug.get(slug))
-  .filter((service): service is Service => Boolean(service));
+  .filter((service): service is Service => Boolean(service))
+  .filter((service) => !service.hidden);

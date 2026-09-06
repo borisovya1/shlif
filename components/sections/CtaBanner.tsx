@@ -8,7 +8,7 @@ export default function CtaBanner() {
       <div className="container-page">
         <div className="flex flex-col items-start gap-8 rounded-[2rem] bg-copper-500 p-8 text-white sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
+            <h2 className="font-serif text-3xl font-bold tracking-tight text-balance sm:text-4xl">
               Готовы обсудить проект?
             </h2>
             <p className="mt-3 max-w-xl text-copper-50">

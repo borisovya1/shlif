@@ -32,7 +32,7 @@ export default function SectionHeading({
         </span>
       ) : null}
       <h2
-        className={`mt-4 text-[1.65rem] leading-tight font-extrabold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1] ${
+        className={`mt-3 font-serif text-[1.65rem] leading-tight font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1] ${
           tone === "light" ? "text-white" : "text-bark-900"
         }`}
       >

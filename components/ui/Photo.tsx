@@ -29,6 +29,8 @@ type PhotoProps = {
   className?: string;
   sizes?: string;
   priority?: boolean;
+  /** "contain" — показать фото целиком (немного отдалить), не обрезая края */
+  fit?: "cover" | "contain";
 };
 
 export default function Photo({
@@ -39,28 +41,14 @@ export default function Photo({
   className = "",
   sizes = "(max-width: 768px) 100vw, 33vw",
   priority = false,
+  fit = "cover",
 }: PhotoProps) {
-  if (src) {
-    return (
-      <div className={`relative overflow-hidden bg-bark-200 ${className}`}>
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes={sizes}
-          priority={priority}
-          className="object-cover"
-        />
-      </div>
-    );
-  }
-
   const palette = tones[tone % tones.length];
 
   return (
     <div
-      role="img"
-      aria-label={alt}
+      role={src ? undefined : "img"}
+      aria-label={src ? undefined : alt}
       className={`relative overflow-hidden ${className}`}
       style={{
         backgroundImage: `repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 9px), linear-gradient(140deg, ${palette.from} 0%, ${palette.to} 100%)`,
@@ -73,6 +61,19 @@ export default function Photo({
             "radial-gradient(120% 80% at 20% 10%, rgba(255,255,255,0.18) 0%, transparent 55%)",
         }}
       />
+
+      {src ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          draggable={false}
+          className={fit === "contain" ? "object-contain select-none" : "object-cover select-none"}
+        />
+      ) : null}
+
       {label ? (
         <span className="absolute bottom-3 left-3 rounded-full bg-black/35 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-sm">
           {label}

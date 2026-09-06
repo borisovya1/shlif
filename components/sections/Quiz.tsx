@@ -13,8 +13,6 @@ const workOptions = [
   "Тёплый шов",
   "Обсада окон",
   "Обсада дверей",
-  "Крыши",
-  "Инженерия",
   "Отделочные работы",
 ];
 
@@ -58,6 +56,7 @@ export default function Quiz() {
           />
 
           <Photo
+            src="/assets/quiz-house.webp"
             alt="Деревянный дом после отделки"
             tone={5}
             sizes="(max-width: 1024px) 100vw, 32rem"

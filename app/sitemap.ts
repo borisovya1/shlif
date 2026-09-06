@@ -12,11 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${base}/`, lastModified, priority: 1 },
     { url: `${base}/uslugi/`, lastModified, priority: 0.9 },
-    ...services.map((service) => ({
-      url: `${base}/uslugi/${service.slug}/`,
-      lastModified,
-      priority: 0.8,
-    })),
+    ...services
+      .filter((service) => !service.hidden)
+      .map((service) => ({
+        url: `${base}/uslugi/${service.slug}/`,
+        lastModified,
+        priority: 0.8,
+      })),
     { url: `${base}/politika/`, lastModified, priority: 0.2 },
     { url: `${base}/oferta/`, lastModified, priority: 0.2 },
   ];

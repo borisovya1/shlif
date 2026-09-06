@@ -21,7 +21,7 @@ type PageProps = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
+  return services.filter((service) => !service.hidden).map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -54,7 +54,8 @@ export default async function ServicePage({ params }: PageProps) {
   const children = getChildren(service);
   const parent = getParent(service);
   const siblings = services.filter(
-    (item) => item.featured && item.slug !== service.slug && item.slug !== parent?.slug,
+    (item) =>
+      item.featured && !item.hidden && item.slug !== service.slug && item.slug !== parent?.slug,
   );
 
   const base = site.url.replace(/\/$/, "");

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Bitter, Manrope } from "next/font/google";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -12,6 +12,13 @@ const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
   display: "swap",
   variable: "--font-manrope",
+});
+
+const bitter = Bitter({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  variable: "--font-bitter",
+  weight: ["600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -66,7 +73,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ru" className={manrope.variable}>
+    <html lang="ru" className={`${manrope.variable} ${bitter.variable}`}>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"

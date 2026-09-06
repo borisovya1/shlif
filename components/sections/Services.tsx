@@ -10,8 +10,8 @@ export default function Services() {
       <div className="container-page">
         <SectionHeading
           eyebrow="Наши услуги"
-          title="Полный цикл работ с деревянным домом"
-          text="От подготовки древесины до кровли и инженерии — все направления закрывает одна команда."
+          title="Широкий спектр работ с деревянным домом"
+          text="От подготовки древесины до финишной отделки — все направления закрывает одна команда."
         />
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

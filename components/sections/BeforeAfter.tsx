@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import Photo from "@/components/ui/Photo";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -10,6 +11,8 @@ function Compare({ item }: { item: BeforeAfterItem }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(50);
   const [dragging, setDragging] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   function updateFromClientX(clientX: number) {
     const bounds = containerRef.current?.getBoundingClientRect();
@@ -19,8 +22,10 @@ function Compare({ item }: { item: BeforeAfterItem }) {
   }
 
   function onPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     setDragging(true);
+    setTouched(true);
     updateFromClientX(event.clientX);
   }
 
@@ -34,19 +39,26 @@ function Compare({ item }: { item: BeforeAfterItem }) {
   }
 
   return (
-    <figure>
+    <motion.figure
+      initial={reduceMotion ? undefined : { opacity: 0, y: 24 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div
         ref={containerRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={stopDragging}
         onPointerCancel={stopDragging}
+        onDragStart={(event) => event.preventDefault()}
         className="relative aspect-4/3 w-full cursor-ew-resize touch-none overflow-hidden rounded-3xl border border-bark-200 select-none"
       >
         <div className="absolute inset-0">
           <Photo
-            alt={`${item.title} — до`}
-            tone={item.tone + 6}
+            src={item.afterSrc}
+            alt={`${item.title} — после`}
+            tone={item.tone}
             sizes="(max-width: 1024px) 100vw, 36rem"
             className="h-full w-full"
           />
@@ -57,29 +69,38 @@ function Compare({ item }: { item: BeforeAfterItem }) {
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
           <Photo
-            alt={`${item.title} — после`}
-            tone={item.tone}
+            src={item.beforeSrc}
+            alt={`${item.title} — до`}
+            tone={item.tone + 6}
             sizes="(max-width: 1024px) 100vw, 36rem"
             className="h-full w-full"
           />
         </div>
 
         <span className="absolute top-4 left-4 rounded-full bg-bark-950/70 px-3 py-1 text-xs font-bold tracking-wide text-white uppercase">
-          После
+          До
         </span>
         <span className="absolute top-4 right-4 rounded-full bg-bark-950/70 px-3 py-1 text-xs font-bold tracking-wide text-white uppercase">
-          До
+          После
         </span>
 
         <div
           className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white/90"
           style={{ left: `${position}%` }}
         >
-          <span className="absolute top-1/2 left-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-bark-900 shadow-lg">
+          <motion.span
+            className="pointer-events-none absolute top-1/2 left-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-bark-900 shadow-lg"
+            animate={
+              !touched && !reduceMotion
+                ? { x: [0, -7, 7, -4, 0] }
+                : { x: 0 }
+            }
+            transition={{ duration: 1.4, delay: 0.9, ease: "easeInOut" }}
+          >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <path d="m9 6-5 6 5 6M15 6l5 6-5 6" />
             </svg>
-          </span>
+          </motion.span>
         </div>
       </div>
 
@@ -88,16 +109,19 @@ function Compare({ item }: { item: BeforeAfterItem }) {
         min={0}
         max={100}
         value={Math.round(position)}
-        onChange={(event) => setPosition(Number(event.target.value))}
+        onChange={(event) => {
+          setTouched(true);
+          setPosition(Number(event.target.value));
+        }}
         aria-label={`Сравнение «до и после»: ${item.title}`}
         className="mt-4 w-full"
       />
 
       <figcaption className="mt-3">
-        <h3 className="text-lg font-bold text-bark-900">{item.title}</h3>
+        <h3 className="font-serif text-lg font-bold text-bark-900">{item.title}</h3>
         <p className="mt-1 text-sm text-bark-500">{item.caption}</p>
       </figcaption>
-    </figure>
+    </motion.figure>
   );
 }
 
