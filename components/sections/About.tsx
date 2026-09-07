@@ -37,7 +37,7 @@ export default function About() {
 
           <Photo
             alt="Работы на объекте"
-            src="/assets/dimon.webp"
+            // src="/assets/dimon.webp"
             // tone={3}
             sizes="(max-width: 1024px) 100vw, 34rem"
             className="aspect-4/5 w-full rounded-[2rem] border border-bark-200"
