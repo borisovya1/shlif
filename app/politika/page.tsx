@@ -54,7 +54,7 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <section className="bg-bark-50 py-16 lg:py-24">
+    <section className="bg-bark-50 pt-[8.75rem] pb-16 sm:pt-[10rem] lg:pt-[12.25rem] lg:pb-24">
       <div className="container-page max-w-3xl">
         <h1 className="text-3xl font-extrabold tracking-tight text-bark-900 sm:text-4xl">
           Политика конфиденциальности

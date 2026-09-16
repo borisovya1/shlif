@@ -121,7 +121,7 @@ export default async function ServicePage({ params }: PageProps) {
           }}
         />
 
-        <div className="relative container-page py-16 lg:py-24">
+        <div className="relative container-page pt-[8.75rem] pb-16 sm:pt-[10rem] lg:pt-[12.25rem] lg:pb-24">
           <nav aria-label="Хлебные крошки" className="text-sm text-bark-400">
             <ol className="flex flex-wrap items-center gap-2">
               <li>

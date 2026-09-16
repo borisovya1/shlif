@@ -83,7 +83,7 @@ export default function Hero() {
 
       <div className="relative">
         <motion.div
-          className="container-page grid gap-10 py-14 sm:gap-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:py-28"
+          className="container-page grid gap-10 pt-[8.25rem] pb-14 sm:gap-14 sm:pt-[11rem] sm:pb-20 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:pt-[13.25rem] lg:pb-28"
           variants={container}
           initial={reduceMotion ? "show" : "hidden"}
           animate="show"

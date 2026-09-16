@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 export default function ServicesIndexPage() {
   return (
     <>
-      <section className="bg-bark-950 py-16 text-white lg:py-24">
+      <section className="bg-bark-950 pt-[8.75rem] pb-16 text-white sm:pt-[10rem] lg:pt-[12.25rem] lg:pb-24">
         <div className="container-page">
           <nav aria-label="Хлебные крошки" className="text-sm text-bark-400">
             <ol className="flex items-center gap-2">
