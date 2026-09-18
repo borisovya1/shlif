@@ -18,10 +18,19 @@ export default function Logo({
           isLight ? "bg-white/10 text-copper-300" : "bg-bark-900 text-copper-300"
         }`}
       >
-        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.4" />
-          <circle cx="12" cy="12" r="5.5" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
-          <circle cx="12" cy="12" r="2.2" fill="currentColor" />
+        {/* Ш под двускатной крышей: дом и первая буква названия */}
+        <svg
+          viewBox="0 0 24 24"
+          className="h-7 w-7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4.5 10.5 12 4.5l7.5 6" />
+          <path d="M7 13v6.5h10V13M12 13v6.5" />
         </svg>
       </span>
       <span className="flex min-w-0 flex-col leading-tight">
