@@ -30,6 +30,15 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
+  // Фавиконка: SVG (рекомендован Яндексом), ICO для старых браузеров, PNG 120×120 для сервисов Яндекса
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon-120.png", type: "image/png", sizes: "120x120" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   authors: [{ name: site.name }],
   openGraph: {
     type: "website",
