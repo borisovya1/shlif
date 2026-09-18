@@ -146,11 +146,11 @@ export default function Hero() {
                 sizes="(max-width: 1024px) 0px, 28rem"
                 className="aspect-4/3 w-full rounded-[2rem] border border-white/15"
               />
-              <div className="absolute -bottom-6 -left-10 w-56 rounded-2xl border border-white/15 bg-bark-900/90 p-5 backdrop-blur">
-                <p className="font-serif text-3xl font-bold text-copper-300">
-                  {site.stats.warranty}
+              <div className="absolute -bottom-7 -left-12 w-56 rounded-2xl border border-white/15 bg-bark-900/85 px-5 py-4 shadow-2xl shadow-black/40 backdrop-blur-md">
+                <p className="font-serif text-xl leading-snug font-semibold text-balance text-bark-100">
+                  Мы бережём и улучшаем то,{" "}
+                  <span className="text-copper-300">что вам дорого</span>
                 </p>
-                <p className="mt-1 text-sm text-bark-300">гарантии на выполненные работы</p>
               </div>
             </div>
           </motion.div>
