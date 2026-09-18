@@ -51,7 +51,7 @@ export default function HomePage() {
       <Steps />
       <About />
       <Contacts />
-      <CtaBanner />
+      {/*<CtaBanner />*/}
     </>
   );
 }

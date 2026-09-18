@@ -73,13 +73,13 @@ export default function Footer() {
                 <span className="text-xs text-bark-500">{site.email.note}</span>
               </span>
             </li>
-            <li className="flex gap-3">
-              <PinIcon className="mt-0.5 h-5 w-5 shrink-0 text-copper-400" />
-              <span>
-                <span className="block font-semibold text-white">{site.address.note}</span>
-                <span className="text-xs text-bark-500">{site.address.display}</span>
-              </span>
-            </li>
+            {/*<li className="flex gap-3">*/}
+            {/*  <PinIcon className="mt-0.5 h-5 w-5 shrink-0 text-copper-400" />*/}
+            {/*  <span>*/}
+            {/*    <span className="block font-semibold text-white">{site.address.note}</span>*/}
+            {/*    <span className="text-xs text-bark-500">{site.address.display}</span>*/}
+            {/*  </span>*/}
+            {/*</li>*/}
           </ul>
         </div>
       </div>

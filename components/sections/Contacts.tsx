@@ -47,17 +47,17 @@ export default function Contacts() {
               </span>
             </li>
 
-            <li className="flex gap-4">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-copper-50 text-copper-600">
-                <PinIcon className="h-6 w-6" />
-              </span>
-              <span>
-                <span className="block text-lg font-bold text-bark-900">
-                  {site.address.note}
-                </span>
-                <span className="text-sm text-bark-400">{site.address.display}</span>
-              </span>
-            </li>
+            {/*<li className="flex gap-4">*/}
+            {/*  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-copper-50 text-copper-600">*/}
+            {/*    <PinIcon className="h-6 w-6" />*/}
+            {/*  </span>*/}
+            {/*  <span>*/}
+            {/*    <span className="block text-lg font-bold text-bark-900">*/}
+            {/*      {site.address.note}*/}
+            {/*    </span>*/}
+            {/*    <span className="text-sm text-bark-400">{site.address.display}</span>*/}
+            {/*  </span>*/}
+            {/*</li>*/}
 
             <li className="flex gap-4">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-copper-50 text-copper-600">

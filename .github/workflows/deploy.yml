@@ -65,7 +65,21 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.DEPLOY_PATH }}
-            git fetch --all
+            # github.com с сервера доступен нестабильно: вместо ожидания 2+ минут
+            # делаем короткие попытки (таймаут 45 с) и повторяем до 6 раз
+            fetched=0
+            for attempt in 1 2 3 4 5 6; do
+              if timeout 45 git fetch origin main; then
+                fetched=1
+                break
+              fi
+              echo "git fetch: попытка $attempt не удалась, повтор через 15 с"
+              sleep 15
+            done
+            if [ "$fetched" != 1 ]; then
+              echo "GitHub недоступен с сервера после 6 попыток"
+              exit 1
+            fi
             git reset --hard origin/main
             corepack enable
             yarn install --immutable
