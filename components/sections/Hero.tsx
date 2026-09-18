@@ -126,7 +126,7 @@ export default function Hero() {
 
             <motion.dl
               variants={item}
-              className="mt-12 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-white/10 pt-9 sm:grid-cols-4"
+              className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/10 pt-8"
             >
               {heroBenefits.map((benefit) => (
                 <div key={benefit.title}>
@@ -148,11 +148,9 @@ export default function Hero() {
               />
               <div className="absolute -bottom-6 -left-10 w-56 rounded-2xl border border-white/15 bg-bark-900/90 p-5 backdrop-blur">
                 <p className="font-serif text-3xl font-bold text-copper-300">
-                  {site.stats.objects}
+                  {site.stats.warranty}
                 </p>
-                <p className="mt-1 text-sm text-bark-300">
-                  домов отреставрировано за {site.stats.years} лет работы
-                </p>
+                <p className="mt-1 text-sm text-bark-300">гарантии на выполненные работы</p>
               </div>
             </div>
           </motion.div>

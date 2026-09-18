@@ -17,10 +17,11 @@ import { getChildren, menuGroups, serviceHref } from "@/lib/services";
 import { navLinks, site } from "@/lib/site";
 
 const desktopLinks = navLinks.filter((link) =>
-  ["/#portfolio", "/#steps", "/#about", "/#faq", "/#contacts"].includes(link.href),
+  ["/#steps", "/#about", "/#faq", "/#contacts"].includes(link.href),
 );
 
-const insetX = "mx-3 sm:mx-6 lg:mx-10";
+// На десктопе шапка ровно по ширине контента (.container-page: 80rem, отступы 2.5rem → 75rem)
+const insetX = "mx-3 sm:mx-6 lg:mx-10 xl:mx-auto xl:w-[min(calc(100%-5rem),75rem)]";
 
 export default function Header() {
   const { openCallback } = useModals();
@@ -172,11 +173,11 @@ export default function Header() {
             mobileOpen ? "rounded-t-2xl border-b-0" : "rounded-2xl"
           }`}
         >
-          <div className="container-page relative grid h-16 grid-cols-[auto_1fr_auto] items-center gap-3 sm:h-20">
+          <div className="relative mx-auto grid h-16 max-w-[80rem] grid-cols-[auto_1fr_auto] items-center gap-3 px-4 sm:h-20 sm:px-5 xl:h-16 xl:px-5">
             <Logo compact />
 
             <nav
-              className="hidden items-center justify-self-center gap-1 xl:flex"
+              className="hidden items-center justify-self-center gap-0.5 xl:flex"
               aria-label="Основная навигация"
             >
               <div
@@ -213,14 +214,14 @@ export default function Header() {
             <div className="flex shrink-0 items-center justify-self-end gap-2 sm:gap-3">
               <a
                 href={site.phone.href}
-                className="btn btn-outline hidden px-4 py-2.5 text-sm xl:inline-flex"
+                className="hidden px-2 text-sm font-bold whitespace-nowrap text-bark-900 transition hover:text-copper-600 xl:inline-flex"
               >
                 {site.phone.display}
               </a>
               <button
                 type="button"
                 onClick={openCallback}
-                className="btn btn-primary hidden px-5 py-2.5 text-sm xl:inline-flex"
+                className="btn btn-primary hidden px-5 py-2.5 text-sm whitespace-nowrap xl:inline-flex"
               >
                 Заказать звонок
               </button>
@@ -244,7 +245,7 @@ export default function Header() {
 
             {megaOpen ? (
               <div
-                className="absolute top-full left-1/2 hidden w-[min(72rem,calc(100vw-3rem))] -translate-x-1/2 pt-3 xl:block"
+                className="absolute top-full left-0 hidden w-full pt-3 xl:block"
                 onMouseEnter={cancelClose}
                 onMouseLeave={scheduleClose}
               >

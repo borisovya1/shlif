@@ -6,9 +6,7 @@ import Contacts from "@/components/sections/Contacts";
 import CtaBanner from "@/components/sections/CtaBanner";
 import Faq from "@/components/sections/Faq";
 import Hero from "@/components/sections/Hero";
-import Portfolio from "@/components/sections/Portfolio";
 import Quiz from "@/components/sections/Quiz";
-import Reviews from "@/components/sections/Reviews";
 import Services from "@/components/sections/Services";
 import Steps from "@/components/sections/Steps";
 import JsonLd from "@/components/seo/JsonLd";
@@ -38,6 +36,9 @@ const faqSchema = {
   })),
 };
 
+// Блоки «Наши проекты» (Portfolio) и «Отзывы» (Reviews) временно скрыты: компоненты
+// остались в components/sections, чтобы вернуть их, достаточно снова подключить здесь
+// и добавить пункт «Работы» (/#portfolio) в navLinks и desktopLinks в шапке.
 export default function HomePage() {
   return (
     <>
@@ -45,9 +46,7 @@ export default function HomePage() {
       <Hero />
       <Services />
       <Quiz />
-      <Portfolio />
       <BeforeAfter />
-      <Reviews />
       <Faq />
       <Steps />
       <About />

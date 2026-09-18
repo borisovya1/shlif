@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
       })),
     { url: `${base}/politika/`, lastModified, priority: 0.2 },
+    { url: `${base}/soglasie/`, lastModified, priority: 0.2 },
     { url: `${base}/oferta/`, lastModified, priority: 0.2 },
   ];
 }

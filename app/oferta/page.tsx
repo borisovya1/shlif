@@ -34,14 +34,15 @@ const sections = [
   {
     title: "4. Гарантия",
     paragraphs: [
-      `Гарантийный срок на выполненные работы составляет до ${site.stats.warranty} и зависит от вида работ и применяемых материалов.`,
+      `Гарантийный срок на выполненные работы составляет ${site.stats.warranty}.`,
       "Гарантия не распространяется на дефекты, возникшие из-за нарушения условий эксплуатации или вмешательства третьих лиц.",
     ],
   },
   {
     title: "5. Контакты",
     paragraphs: [
-      `Телефон: ${site.phone.display}. Электронная почта: ${site.email.display}. Адрес: ${site.address.display}.`,
+      `Исполнитель: ${site.operator.legalName}, ИНН ${site.operator.inn}, ${site.operator.ogrnLabel} ${site.operator.ogrn}. Адрес: ${site.operator.legalAddress}. Режим работы: ${site.workingHours.toLowerCase()}.`,
+      `Телефон: ${site.phone.display}. Электронная почта: ${site.email.display}.`,
     ],
   },
 ];

@@ -28,6 +28,7 @@ export default function LeadForm({
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
+  const [consent, setConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -48,6 +49,11 @@ export default function LeadForm({
       return;
     }
 
+    if (!consent) {
+      setError("Отметьте согласие на обработку персональных данных");
+      return;
+    }
+
     setError(null);
     setPending(true);
 
@@ -57,10 +63,12 @@ export default function LeadForm({
         name: name || undefined,
         source,
         details,
+        consent,
         company: company || undefined,
       });
       setPhone("");
       setName("");
+      setConsent(false);
       openSuccess();
     } catch (submitError) {
       setError(
@@ -129,17 +137,41 @@ export default function LeadForm({
         </p>
       ) : null}
 
-      <p
-        className={`mt-3 text-xs leading-relaxed ${
-          isDark ? "text-white/50" : "text-bark-400"
+      <label
+        className={`mt-4 flex cursor-pointer items-start gap-3 text-xs leading-relaxed ${
+          isDark ? "text-white/60" : "text-bark-500"
         }`}
       >
-        Нажимая кнопку, вы соглашаетесь с{" "}
-        <Link href="/politika" className="underline underline-offset-2">
-          обработкой персональных данных
-        </Link>
-        .
-      </p>
+        <input
+          type="checkbox"
+          name="consent"
+          checked={consent}
+          onChange={(event) => {
+            setConsent(event.target.checked);
+            if (event.target.checked) setError(null);
+          }}
+          className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-copper-500"
+        />
+        <span>
+          Я даю{" "}
+          <Link
+            href="/soglasie/"
+            target="_blank"
+            className="underline underline-offset-2 hover:text-copper-400"
+          >
+            согласие на обработку персональных данных
+          </Link>{" "}
+          и ознакомлен(а) с{" "}
+          <Link
+            href="/politika/"
+            target="_blank"
+            className="underline underline-offset-2 hover:text-copper-400"
+          >
+            политикой обработки данных
+          </Link>
+          .
+        </span>
+      </label>
     </form>
   );
 }

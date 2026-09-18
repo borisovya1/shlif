@@ -7,6 +7,8 @@ export type Lead = {
   source: string;
   /** Ответы квиза, если заявка из него */
   details?: Record<string, string>;
+  /** Согласие на обработку ПДн (чекбокс в форме) */
+  consent: boolean;
   /** Honeypot: люди это поле не видят, боты заполняют */
   company?: string;
 };

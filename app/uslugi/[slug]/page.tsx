@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!service) return {};
 
   const title = `${service.title} в ${site.regionShort}`;
-  const description = `${service.excerpt} Работаем по договору с фиксированной сметой, бесплатный выезд замерщика, гарантия до ${site.stats.warranty}.`;
+  const description = `${service.excerpt} Работаем по договору с фиксированной сметой, бесплатный выезд замерщика, гарантия ${site.stats.warranty}.`;
 
   return {
     title,

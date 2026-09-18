@@ -4,6 +4,7 @@ import { Bitter, Manrope } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ModalProvider } from "@/components/modals/ModalProvider";
+import CookieConsent from "@/components/ui/CookieConsent";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -83,6 +84,7 @@ export default function RootLayout({
           <Header />
           <main id="top">{children}</main>
           <Footer />
+          <CookieConsent />
         </ModalProvider>
       </body>
     </html>

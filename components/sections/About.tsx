@@ -2,7 +2,6 @@ import Photo from "@/components/ui/Photo";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { CheckIcon } from "@/components/ui/icons";
 import { advantages, companyStats } from "@/lib/content";
-import { site } from "@/lib/site";
 
 export default function About() {
   return (
@@ -11,8 +10,8 @@ export default function About() {
         <div className="grid gap-12 lg:grid-cols-[1.05fr_1fr] lg:items-center">
           <div>
             <SectionHeading
-              eyebrow="Опыт и надёжность"
-              title={`Более ${site.stats.years.replace("+", "")} лет работаем с деревом`}
+              eyebrow="О компании"
+              title="Специализируемся на деревянных домах"
               text="Отделочная компания полного цикла для деревянных домов: от подготовки древесины до финишной покраски и тёплого шва."
             />
 
@@ -20,10 +19,10 @@ export default function About() {
               Мы объединяем комплекс отделочных работ у одного исполнителя:
               не нужно искать разных подрядчиков и согласовывать сроки между бригадами.
               Работаем по договору с фиксированной сметой, используем сертифицированные
-              материалы и собственное производство.
+              материалы.
             </p>
 
-            <dl className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3">
+            <dl className="mt-10 grid grid-cols-2 gap-6">
               {companyStats.map((stat) => (
                 <div key={stat.label}>
                   <dt className="text-2xl font-extrabold text-copper-600 sm:text-3xl">
@@ -36,9 +35,9 @@ export default function About() {
           </div>
 
           <Photo
-            alt="Работы на объекте"
-            // src="/assets/dimon.webp"
-            // tone={3}
+            alt="Двое рабочих на объекте"
+            src="/assets/workers.webp"
+            tone={3}
             sizes="(max-width: 1024px) 100vw, 34rem"
             className="aspect-4/5 w-full rounded-[2rem] border border-bark-200"
           />
