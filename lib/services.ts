@@ -317,6 +317,7 @@ export const services: Service[] = [
   {
     slug: "otdelochnye-raboty",
     title: "Отделочные работы",
+    hidden: true,
     icon: "finishing",
     excerpt: "Комплексная внутренняя и внешняя отделка деревянного дома.",
     intro:
@@ -345,6 +346,7 @@ export const services: Service[] = [
   {
     slug: "otdelka-sten",
     title: "Отделка стен",
+    hidden: true,
     icon: "wall",
     excerpt: "Вагонка, планкен, панели и покраска внутренних стен.",
     intro:
@@ -370,6 +372,7 @@ export const services: Service[] = [
   {
     slug: "otdelka-pola",
     title: "Отделка пола",
+    hidden: true,
     icon: "floor",
     excerpt: "Черновой и чистовой пол, тёплый пол, шлифовка и покрытие.",
     intro:
