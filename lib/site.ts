@@ -17,6 +17,11 @@ export const site = {
     href: "tel:+79036838291",
     note: "Ежедневно с 9:00 до 21:00",
   },
+  max: {
+    display: "Написать в Max",
+    href: "https://max.ru/u/f9LHodD0cOKlo1X0KS6XPtQ9S9QCtzv127l55lDXv7Y255k0de1FLHypypE",
+    note: "Отвечаем в мессенджере",
+  },
   // ЗАМЕНИТЬ: пока заглушка
   email: {
     display: "turckow.dmitrij@yandex.ru",

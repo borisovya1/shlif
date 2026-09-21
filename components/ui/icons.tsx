@@ -34,7 +34,14 @@ export const MailIcon = (props: IconProps) => (
   </Svg>
 );
 
-export const PinIcon = (props: IconProps) => (
+export const ChatIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <path d="M4 12a8 8 0 1 1 3.2 6.4L3.5 20l1.1-3.7A7.96 7.96 0 0 1 4 12Z" />
+    <path d="M8.5 11.5h7M8.5 14.5h4" />
+  </Svg>
+);
+
+export const PinIcon =(props: IconProps) => (
   <Svg {...props}>
     <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" />
     <circle cx="12" cy="10" r="2.5" />
