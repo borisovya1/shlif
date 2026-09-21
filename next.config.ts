@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  // 90 — для фото, где важна чёткость (см. quality в Photo)
+  images: { qualities: [75, 90] },
 };
 
 export default nextConfig;

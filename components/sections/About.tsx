@@ -35,11 +35,13 @@ export default function About() {
           </div>
 
           <Photo
-            alt="Двое рабочих на объекте"
-            src="/assets/workers.webp"
+            alt="Мастер в каске и рабочей куртке"
+            src="/assets/worker.webp"
             tone={3}
-            sizes="(max-width: 1024px) 100vw, 34rem"
-            className="aspect-4/5 w-full rounded-[2rem] border border-bark-200"
+            position="85% center"
+            quality={90}
+            sizes="(max-width: 1024px) 100vw, 68rem"
+            className="aspect-square w-full rounded-[2rem] border border-bark-200"
           />
         </div>
 

@@ -31,6 +31,10 @@ type PhotoProps = {
   priority?: boolean;
   /** "contain" — показать фото целиком (немного отдалить), не обрезая края */
   fit?: "cover" | "contain";
+  /** CSS object-position — какую часть фото оставлять в кадре при обрезке */
+  position?: string;
+  /** Качество перекодирования next/image (1–100) */
+  quality?: number;
 };
 
 export default function Photo({
@@ -42,6 +46,8 @@ export default function Photo({
   sizes = "(max-width: 768px) 100vw, 33vw",
   priority = false,
   fit = "cover",
+  position,
+  quality,
 }: PhotoProps) {
   const palette = tones[tone % tones.length];
 
@@ -69,6 +75,8 @@ export default function Photo({
           fill
           sizes={sizes}
           priority={priority}
+          quality={quality}
+          style={position ? { objectPosition: position } : undefined}
           draggable={false}
           className={fit === "contain" ? "object-contain select-none" : "object-cover select-none"}
         />
