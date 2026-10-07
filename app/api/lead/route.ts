@@ -92,7 +92,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Некорректный запрос" }, { status: 400 });
   }
 
-  if (asText(payload.company, 100)) {
+  if (asText(payload.website_url, 100) || asText(payload.company, 100)) {
+    console.info("[lead] honeypot, письмо не отправлено");
     return NextResponse.json({ ok: true });
   }
 
@@ -164,7 +165,7 @@ export async function POST(request: Request) {
       },
     });
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `"${site.name}" <${smtp.from}>`,
       to: smtp.to,
       subject: `Заявка с сайта: ${phone}`,
@@ -176,6 +177,7 @@ export async function POST(request: Request) {
         <p><i>${escapeHtml(sourceLabel)} · ${escapeHtml(receivedAt)} МСК</i></p>
       `,
     });
+    console.info("[lead] письмо отправлено", { to: smtp.to, id: info.messageId });
   } catch (error) {
     console.error("[lead] Ошибка отправки почты:", error);
     return NextResponse.json({ error: "Не удалось отправить заявку" }, { status: 502 });

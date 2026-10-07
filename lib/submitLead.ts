@@ -10,7 +10,7 @@ export type Lead = {
   /** Согласие на обработку ПДн (чекбокс в форме) */
   consent: boolean;
   /** Honeypot: люди это поле не видят, боты заполняют */
-  company?: string;
+  website_url?: string;
 };
 
 /**

@@ -13,19 +13,23 @@ export const site = {
   url: "http://доктор-шлиф.рф",
 
   phone: {
-    display: "+7 (903) 683-82-91",
-    href: "tel:+79036838291",
+    display: "+7 (968) 566-24-24",
+    href: "tel:+79685662424",
     note: "Ежедневно с 9:00 до 21:00",
   },
   max: {
     display: "Написать в Max",
-    href: "https://max.ru/u/f9LHodD0cOKlo1X0KS6XPtQ9S9QCtzv127l55lDXv7Y255k0de1FLHypypE",
+    href: "https://max.ru/u/f9LHodD0cOJjHqpYitNPXzDxGBLox4qiqGbGoRG7x1SD5oL_dDQotQS1-vs",
     note: "Отвечаем в мессенджере",
   },
-  // ЗАМЕНИТЬ: пока заглушка
+  telegram: {
+    display: "Подписывайтесь на нас в Telegram",
+    href: "https://max.ru/u/f9LHodD0cOJjHqpYitNPXzDxGBLox4qiqGbGoRG7x1SD5oL_dDQotQS1-vs",
+    note: "Группа с новостями и работами",
+  },
   email: {
-    display: "turckow.dmitrij@yandex.ru",
-    href: "turckow.dmitrij@yandex.ru",
+    display: "i@dshlif.ru",
+    href: "mailto:i@dshlif.ru",
     note: "Ответим в течение дня",
   },
   // ЗАМЕНИТЬ: пока заглушка

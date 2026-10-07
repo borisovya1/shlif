@@ -73,6 +73,26 @@ export default function Footer() {
                 <span className="text-xs text-bark-500">{site.email.note}</span>
               </span>
             </li>
+            <li>
+              <a
+                href={site.max.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-white transition hover:text-copper-300"
+              >
+                {site.max.display}
+              </a>
+            </li>
+            <li>
+              <a
+                href={site.telegram.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-white transition hover:text-copper-300"
+              >
+                {site.telegram.display}
+              </a>
+            </li>
             {/*<li className="flex gap-3">*/}
             {/*  <PinIcon className="mt-0.5 h-5 w-5 shrink-0 text-copper-400" />*/}
             {/*  <span>*/}

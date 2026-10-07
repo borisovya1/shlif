@@ -51,6 +51,23 @@ export default function Contacts() {
 
             <li className="flex gap-4">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-copper-50 text-copper-600">
+                <ChatIcon className="h-6 w-6" />
+              </span>
+              <span>
+                <a
+                  href={site.telegram.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-lg font-bold text-bark-900 transition hover:text-copper-600"
+                >
+                  {site.telegram.display}
+                </a>
+                <span className="text-sm text-bark-400">{site.telegram.note}</span>
+              </span>
+            </li>
+
+            <li className="flex gap-4">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-copper-50 text-copper-600">
                 <MailIcon className="h-6 w-6" />
               </span>
               <span>

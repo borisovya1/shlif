@@ -64,7 +64,7 @@ export default function LeadForm({
         source,
         details,
         consent,
-        company: company || undefined,
+        website_url: company || undefined,
       });
       setPhone("");
       setName("");
@@ -82,10 +82,10 @@ export default function LeadForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={className} noValidate>
+    <form onSubmit={handleSubmit} action="#" className={className} noValidate>
       <input
         type="text"
-        name="company"
+        name="website_url"
         value={company}
         onChange={(event) => setCompany(event.target.value)}
         tabIndex={-1}
