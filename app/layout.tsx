@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ModalProvider } from "@/components/modals/ModalProvider";
 import CookieConsent from "@/components/ui/CookieConsent";
+import YandexMetrika from "@/components/analytics/YandexMetrika";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -94,6 +95,7 @@ export default function RootLayout({
           <main id="top">{children}</main>
           <Footer />
           <CookieConsent />
+          <YandexMetrika />
         </ModalProvider>
       </body>
     </html>

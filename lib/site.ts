@@ -12,6 +12,9 @@ export const site = {
 
   url: "https://doctor-shlif.ru",
 
+  /** Номер счётчика Яндекс Метрики (metrika.yandex.ru) */
+  metrikaId: 114258403,
+
   phone: {
     display: "+7 (968) 566-24-24",
     href: "tel:+79685662424",
@@ -52,7 +55,7 @@ export const site = {
   },
 
   /** Дата действующей редакции политики и согласия */
-  legalUpdated: "18 сентября 2026 г.",
+  legalUpdated: "15 ноября 2026 г.",
 
   /** Именительный падеж — для карточек и schema.org */
   region: "Москва и Московская область",

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 
 import { useModals } from "@/components/modals/modal-context";
+import { reachGoal } from "@/lib/metrika";
 import { formatPhone, isPhoneComplete } from "@/lib/phone";
 import { submitLead } from "@/lib/submitLead";
 
@@ -34,8 +35,9 @@ export default function LeadForm({
 
   const isDark = tone === "dark";
 
+  // ym-disable-keys — Вебвизор Метрики не записывает ввод в эти поля
   const fieldClass = [
-    "w-full rounded-full border px-5 py-3.5 text-base outline-none transition",
+    "ym-disable-keys w-full rounded-full border px-5 py-3.5 text-base outline-none transition",
     isDark
       ? "border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:border-copper-300"
       : "border-bark-200 bg-white text-bark-900 placeholder:text-bark-400 focus:border-copper-400",
@@ -69,6 +71,7 @@ export default function LeadForm({
       setPhone("");
       setName("");
       setConsent(false);
+      reachGoal("lead", { source });
       openSuccess();
     } catch (submitError) {
       setError(
