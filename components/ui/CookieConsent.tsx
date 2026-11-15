@@ -37,8 +37,10 @@ export default function CookieConsent() {
       <div className="rounded-2xl border border-bark-200 bg-bark-50/95 p-5 shadow-xl shadow-bark-900/15 backdrop-blur-md">
         <p className="text-base font-bold text-bark-900">Мы используем файлы cookie</p>
         <p className="mt-2 text-sm leading-relaxed text-bark-600">
-          Они помогают сайту работать и становиться удобнее. Вы можете принять их использование или
-          отказаться; выбор можно изменить в любой момент. Подробнее — в{" "}
+          С вашего согласия мы подключаем Яндекс Метрику: она собирает статистику посещений и
+          действий на страницах, чтобы мы делали сайт удобнее. Если откажетесь, Метрика не
+          загружается, а сайт работает как обычно. Выбор можно изменить в любой момент по ссылке
+          «Настройки cookie» внизу страницы. Подробнее — в{" "}
           <Link
             href="/politika/#cookie"
             className="font-semibold text-copper-600 underline underline-offset-2 hover:text-copper-700"
